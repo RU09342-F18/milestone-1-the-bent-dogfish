@@ -69,12 +69,12 @@
 
 #include <msp430.h>
 
-char greeting[20] = "Please Start Typing:"; // Initial Greeting you should see upon properly connecting your Launchpad
-int i = 0;
+int count = 0;
 int ByteBuffer = 0;
 
 extern void LEDSetup();
 extern void TimerASetup();
+extern void resetColor();
 
 int main(void)
 {
@@ -93,19 +93,8 @@ int main(void)
     LEDSetup();
     TimerASetup();
 
-    while(greeting[i]!='\0')
-    {
-        while (!(UCA1IFG&UCTXIFG));           // USCI_A1 TX buffer ready?
-        {
-            UCA1TXBUF = greeting[i];                  // TX -> RXed character
-            i++;
-        }
-    }
-
     __bis_SR_register(LPM0_bits + GIE);       // Enter LPM0, interrupts enabled
     __no_operation();                         // For debugger
-
-
 }
 
 void LEDSetup()
@@ -128,9 +117,13 @@ void TimerASetup()
     TA0CCTL3 = OUTMOD_2; // Sets TACCR3 to toggle
 
     TA0CCR0 = 0xFF; // Sets TA0CCR0
- //   TA0CCR1 = 0x7E; // Sets TA0CCR1
- //   TA0CCR2 = 0x00; // Sets TA0CCR2
- //   TA0CCR3 = 0xFF; // Sets TA0CCR3
+}
+
+void resetColor()
+{
+    TA0CCR1 = 0x00; // Sets TA0CCR1
+    TA0CCR2 = 0x00; // Sets TA0CCR2
+    TA0CCR3 = 0x00; // Sets TA0CCR3
 }
 
 
@@ -144,34 +137,46 @@ void __attribute__ ((interrupt(USCI_A1_VECTOR))) USCI_A1_ISR (void)
 #error Compiler not supported!
 #endif
 {
+
   switch(__even_in_range(UCA1IV,4))
   {
   case 0:break;                             // Vector 0 - no interrupt
   case 2:                                   // Vector 2 - RXIFG
-    while (!(UCA1IFG&UCTXIFG));             // USCI_A1 TX buffer ready?
-    UCA1TXBUF = UCA1RXBUF;                  // TX -> RXed character
-        switch(ByteBuffer)
+        switch(count)
         {
         case 0:
-            UCA1TXBUF -= 3;
-            ByteBuffer++;
+            UCA1TXBUF = UCA1RXBUF - 3;
+            ByteBuffer = UCA1RXBUF;
+            count++;
             break;
         case 1:
             TA0CCR1 = UCA1RXBUF;
-            ByteBuffer++;
+            count++;
             break;
         case 2:
             TA0CCR2 = UCA1RXBUF;
-            ByteBuffer++;
+            count++;
             break;
         case 3 :
             TA0CCR3 = UCA1RXBUF;
-            ByteBuffer++;
+            count++;
             break;
         default:
-            UCA1TXBUF = UCA1RXBUF;
+            if(count <= ByteBuffer)
+            {
+                UCA1TXBUF = UCA1RXBUF;
+                count++;
+            }
+            else
+            {
+                count = 1;
+                UCA1TXBUF = UCA1RXBUF - 3;
+                ByteBuffer = UCA1RXBUF;
+                resetColor();
+            }
             break;
         }
+
     break;
   case 4:break;                             // Vector 4 - TXIFG
   default: break;
