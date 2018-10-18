@@ -1,7 +1,7 @@
 ******************************************************************************
                   MSP430 Linker PC v18.1.2                     
 ******************************************************************************
->> Linked Wed Oct 17 14:14:56 2018
+>> Linked Thu Oct 18 09:49:02 2018
 
 OUTPUT FILE NAME:   <Milestone_Strangerthings_F5529.out>
 ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 00004494
@@ -85,7 +85,7 @@ MEMORY CONFIGURATION
   INT61                 0000fffa   00000002  00000002  00000000  RWIX
   INT62                 0000fffc   00000002  00000002  00000000  RWIX
   RESET                 0000fffe   00000002  00000002  00000000  RWIX
-  FLASH2                00010000   00014400  0000018a  00014276  RWIX
+  FLASH2                00010000   00014400  00000190  00014270  RWIX
 
 
 SECTION ALLOCATION MAP
@@ -194,27 +194,28 @@ SYSNMI     0    0000fffc    00000002
 .reset     0    0000fffe    00000002     
                   0000fffe    00000002     rts430x_lc_rd_eabi.lib : boot.c.obj (.reset)
 
-.text      0    00010000    0000018a     
+.text      0    00010000    00000190     
                   00010000    00000076     rts430x_lc_rd_eabi.lib : copy_decompress_lzss.c.obj (.text:decompress:lzss:__TI_decompress_lzss)
                   00010076    00000054                            : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit_hold_wdt:__TI_auto_init_nobinit_nopinit_hold_wdt)
-                  000100ca    00000042     main.obj (.text:main)
-                  0001010c    00000020     main.obj (.text:TimerASetup)
-                  0001012c    0000001e     main.obj (.text:LEDSetup)
-                  0001014a    00000014     rts430x_lc_rd_eabi.lib : memcpy.c.obj (.text:memcpy)
-                  0001015e    00000012                            : copy_decompress_none.c.obj (.text:decompress:none:__TI_decompress_none)
-                  00010170    0000000e     main.obj (.text:resetColor)
-                  0001017e    00000006     rts430x_lc_rd_eabi.lib : exit.c.obj (.text:abort)
-                  00010184    00000004                            : pre_init.c.obj (.text:_system_pre_init)
-                  00010188    00000002                            : startup.c.obj (.text:_system_post_cinit)
+                  000100ca    00000028     main.obj (.text:UartSetup)
+                  000100f2    00000020     main.obj (.text:TimerASetup)
+                  00010112    00000020     main.obj (.text:main)
+                  00010132    0000001e     main.obj (.text:LEDSetup)
+                  00010150    00000014     rts430x_lc_rd_eabi.lib : memcpy.c.obj (.text:memcpy)
+                  00010164    00000012                            : copy_decompress_none.c.obj (.text:decompress:none:__TI_decompress_none)
+                  00010176    0000000e     main.obj (.text:resetColor)
+                  00010184    00000006     rts430x_lc_rd_eabi.lib : exit.c.obj (.text:abort)
+                  0001018a    00000004                            : pre_init.c.obj (.text:_system_pre_init)
+                  0001018e    00000002                            : startup.c.obj (.text:_system_post_cinit)
 
 MODULE SUMMARY
 
        Module                       code   ro data   rw data
        ------                       ----   -------   -------
     .\
-       main.obj                     290    2         4      
+       main.obj                     296    2         4      
     +--+----------------------------+------+---------+---------+
-       Total:                       290    2         4      
+       Total:                       296    2         4      
                                                             
     C:\ti\ccsv8\tools\compiler\ti-cgt-msp430_18.1.2.LTS\lib\rts430x_lc_rd_eabi.lib
        copy_decompress_lzss.c.obj   118    0         0      
@@ -253,7 +254,7 @@ MODULE SUMMARY
        Stack:                       0      0         160    
        Linker Generated:            0      23        0      
     +--+----------------------------+------+---------+---------+
-       Grand Total:                 578    69        164    
+       Grand Total:                 584    69        164    
 
 
 LINKER GENERATED COPY TABLES
@@ -356,7 +357,7 @@ address   name
 00000733  ADC12MEM9_H                            
 00000732  ADC12MEM9_L                            
 00002402  ByteBuffer                             
-0001017e  C$$EXIT                                
+00010184  C$$EXIT                                
 000008c0  CBCTL0                                 
 000008c1  CBCTL0_H                               
 000008c0  CBCTL0_L                               
@@ -442,7 +443,7 @@ address   name
 00000146  FCTL4                                  
 00000147  FCTL4_H                                
 00000146  FCTL4_L                                
-0001012c  LEDSetup                               
+00010132  LEDSetup                               
 000004c4  MAC                                    
 000004da  MAC32H                                 
 000004db  MAC32H_H                               
@@ -786,7 +787,7 @@ address   name
 000003e0  TB0EX0                                 
 000003ee  TB0IV                                  
 000003d0  TB0R                                   
-0001010c  TimerASetup                            
+000100f2  TimerASetup                            
 000005d0  UCA0ABCTL                              
 000005c6  UCA0BRW                                
 000005c7  UCA0BRW_H                              
@@ -1023,6 +1024,7 @@ address   name
 00000933  USBVECINT_H                            
 00000932  USBVECINT_L                            
 00004400  USCI_A1_ISR                            
+000100ca  UartSetup                              
 0000015c  WDTCTL                                 
 0000015d  WDTCTL_H                               
 0000015c  WDTCTL_L                               
@@ -1035,7 +1037,7 @@ address   name
 000044b0  __TI_ISR_TRAP                          
 00010076  __TI_auto_init_nobinit_nopinit_hold_wdt
 00010000  __TI_decompress_lzss                   
-0001015e  __TI_decompress_none                   
+00010164  __TI_decompress_none                   
 0000ffd2  __TI_int41                             
 0000ffd4  __TI_int42                             
 0000ffd6  __TI_int43                             
@@ -1065,13 +1067,13 @@ ffffffff  __c_args__
 00004494  _c_int00_noargs                        
 0000fffe  _reset_vector                          
 00004360  _stack                                 
-00010188  _system_post_cinit                     
-00010184  _system_pre_init                       
-0001017e  abort                                  
+0001018e  _system_post_cinit                     
+0001018a  _system_pre_init                       
+00010184  abort                                  
 00002400  count                                  
-000100ca  main                                   
-0001014a  memcpy                                 
-00010170  resetColor                             
+00010112  main                                   
+00010150  memcpy                                 
+00010176  resetColor                             
 
 
 GLOBAL SYMBOLS: SORTED BY Symbol Address 
@@ -1863,19 +1865,20 @@ address   name
 0000fffe  _reset_vector                          
 00010000  __TI_decompress_lzss                   
 00010076  __TI_auto_init_nobinit_nopinit_hold_wdt
-000100ca  main                                   
-0001010c  TimerASetup                            
-0001012c  LEDSetup                               
-0001014a  memcpy                                 
-0001015e  __TI_decompress_none                   
-00010170  resetColor                             
-0001017e  C$$EXIT                                
-0001017e  abort                                  
-00010184  _system_pre_init                       
-00010188  _system_post_cinit                     
+000100ca  UartSetup                              
+000100f2  TimerASetup                            
+00010112  main                                   
+00010132  LEDSetup                               
+00010150  memcpy                                 
+00010164  __TI_decompress_none                   
+00010176  resetColor                             
+00010184  C$$EXIT                                
+00010184  abort                                  
+0001018a  _system_pre_init                       
+0001018e  _system_post_cinit                     
 ffffffff  __TI_pprof_out_hndl                    
 ffffffff  __TI_prof_data_size                    
 ffffffff  __TI_prof_data_start                   
 ffffffff  __c_args__                             
 
-[799 symbols]
+[800 symbols]
